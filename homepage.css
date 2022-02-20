@@ -44,3 +44,9 @@ body{
     height: auto;
     margin: auto;
 }
+
+.categoryName{
+    width: fit-content;
+    border: solid blue;
+    border-style: double;
+}

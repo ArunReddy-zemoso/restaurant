@@ -1,5 +1,7 @@
 let tables=document.getElementById("tables");
 let menu=document.getElementById("menu");
+let tableSearch=document.getElementById("search-table");
+let menuSearch=document.getElementById("search-foodItem");
 
 let tableCount=0;
 let tableData=[]
@@ -39,7 +41,7 @@ function addFoodItemToMenu(name,cost){
     let foodItem=document.createElement("div")
     menu.appendChild(foodItem)
     foodItem.setAttribute("class","foodItem "+name)
-    let foodItemName=document.createElement("h1")
+    let foodItemName=document.createElement("h2")
     foodItem.appendChild(foodItemName)
     foodItemName.innerHTML=name
     let foodItemPrice=document.createElement("h3");
@@ -60,8 +62,40 @@ function loadData(){
         foodItems=JSON.parse(data)
         console.log(foodItems);
         foodItems.forEach(item=>{
-            addFoodItemToMenu(item.name,item.cost);
+            let categoryNameDiv=document.createElement("div");
+            menu.appendChild(categoryNameDiv);
+            categoryNameDiv.style.marginLeft="43%";
+            let categoryName=document.createElement("h1");
+            categoryNameDiv.appendChild(categoryName);
+            categoryName.setAttribute("class","categoryName")
+            categoryName.innerHTML=item.category_name;
+            
+            //categoryName.style.border="solid #000000";
+
+            console.log(categoryName);
+            item.menuItems.forEach(fooditem=>{
+                addFoodItemToMenu(fooditem.name,fooditem.price)
+            })
         })
+    }).catch(function(){
+        console.log("Error while loading foodMenu");
     })
 }
+
+tableSearch.addEventListener("keyup",function(event){
+    let value=event.target.value;
+    if(value!==null){
+        let tableslist=document.querySelectorAll(".table");
+        tableslist.forEach(table =>{
+            if(!table.children[0].innerHTML.includes(value)){
+                table.style.display="none";
+            }
+            else{
+                table.style.display="";
+            }
+        })
+    }
+
+})
+
 loadData();

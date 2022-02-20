@@ -49,15 +49,7 @@ function addFoodItemToMenu(name,cost){
     foodItemPrice.innerHTML=cost
 }
 
-function loadData(){
-    fetch("./tables.txt").then(res=>res.text()).then(function(data){
-        tableData=JSON.parse(data)
-        tableData.forEach(item=>{
-            addTable(item.tableName,item.totalPrice)
-        })
-    }).catch(function(){
-        console.log("Error while loading tables data");
-    })
+function loadMenu(){
     fetch("./foodItems.txt").then(res=>res.text()).then(function(data){
         foodItems=JSON.parse(data)
         console.log(foodItems);
@@ -69,9 +61,6 @@ function loadData(){
             categoryNameDiv.appendChild(categoryName);
             categoryName.setAttribute("class","categoryName")
             categoryName.innerHTML=item.category_name;
-            
-            //categoryName.style.border="solid #000000";
-
             console.log(categoryName);
             item.menuItems.forEach(fooditem=>{
                 addFoodItemToMenu(fooditem.name,fooditem.price)
@@ -82,9 +71,21 @@ function loadData(){
     })
 }
 
+function loadData(){
+    fetch("./tables.txt").then(res=>res.text()).then(function(data){
+        tableData=JSON.parse(data)
+        tableData.forEach(item=>{
+            addTable(item.tableName,item.totalPrice)
+        })
+    }).catch(function(){
+        console.log("Error while loading tables data");
+    })
+    loadMenu();
+}
+
 tableSearch.addEventListener("keyup",function(event){
     let value=event.target.value;
-    if(value!==null){
+    if(value!==""){
         let tableslist=document.querySelectorAll(".table");
         tableslist.forEach(table =>{
             if(!table.children[0].innerHTML.includes(value)){
@@ -95,7 +96,67 @@ tableSearch.addEventListener("keyup",function(event){
             }
         })
     }
+})
 
+menuSearch.addEventListener("keydown",function(event){
+    if(event.key==="Enter" && event.target.value!==""){
+        console.log(event.key);
+        console.log(event.target.value);
+        let value=event.target.value;
+        let isCategory=false
+        let temporaryList=[]
+        foodItems.forEach(item=>{
+            if(value===item.category_name){
+                isCategory=true;
+                item.menuItems.forEach(fooditem=>{
+                    temporaryList.push(fooditem.name)
+                })
+            }
+        })
+        //console.log(temporaryList);
+        if(isCategory){
+            let categories=document.querySelectorAll(".categoryName")
+            categories.forEach(category=>{
+                category.style.display="none";
+            })
+            let foodList=document.querySelectorAll(".foodItem")
+            foodList.forEach(food=>{
+                console.log(food.children[0].innerHTML);
+                if(temporaryList.indexOf(food.children[0].innerHTML)> -1){
+                    food.style.display="";
+                }
+                else{
+                    food.style.display="none";
+                }
+            })
+        }
+        else{
+            let categories=document.querySelectorAll(".categoryName")
+            categories.forEach(category=>{
+                category.style.display="none";
+            })
+            let foodList=document.querySelectorAll(".foodItem")
+            foodList.forEach(food=>{
+                console.log(food.children[0].innerHTML);
+                if(food.children[0].innerHTML.includes(value)){
+                    food.style.display=""
+                }
+                else{
+                    food.style.display="none"
+                }
+            })
+        }
+    }
+    else if(event.target.value===""){
+        let categories=document.querySelectorAll(".categoryName")
+            categories.forEach(category=>{
+                category.style.display="";
+            })
+        let foodList=document.querySelectorAll(".foodItem")
+        foodList.forEach(food=>{
+            food.style.display="";
+        })
+    }
 })
 
 loadData();

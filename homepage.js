@@ -4,7 +4,6 @@ let menu=document.getElementById("menu");
 let tableCount=3;
 
 function addTable(){
-    console.log(tables);
     let table=document.createElement('div');
     tables.appendChild(table);
     table.setAttribute("class","table");
@@ -31,4 +30,18 @@ function addTable(){
     itemCount.innerHTML="0";
     
 }
+
+function addFoodItemToMenu(){
+    let foodItem=document.createElement("div")
+    menu.appendChild(foodItem)
+    foodItem.setAttribute("class","foodItem ChickenBurger")
+    let foodItemName=document.createElement("h1")
+    foodItem.appendChild(foodItemName)
+    foodItemName.innerHTML="ChickenBurger"
+    let foodItemPrice=document.createElement("h3");
+    foodItem.appendChild(foodItemPrice)
+    foodItemPrice.innerHTML="99.00"
+}
+
 addTable();
+addFoodItemToMenu();

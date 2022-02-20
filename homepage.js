@@ -50,13 +50,15 @@ function addFoodItemToMenu(name,cost){
 function loadData(){
     fetch("./tables.txt").then(res=>res.text()).then(function(data){
         tableData=JSON.parse(data)
-        console.log(tableData);
         tableData.forEach(item=>{
             addTable(item.tableName,item.totalPrice)
         })
+    }).catch(function(){
+        console.log("Error while loading tables data");
     })
     fetch("./foodItems.txt").then(res=>res.text()).then(function(data){
         foodItems=JSON.parse(data)
+        console.log(foodItems);
         foodItems.forEach(item=>{
             addFoodItemToMenu(item.name,item.cost);
         })

@@ -1,22 +1,149 @@
 [
-    {
-        "name":"Crusty Garlic Focaccia With Melted Cheese",
-        "cost":"105.00"
-    },
-    {
-        "name":"French Fries",
-        "cost":"105:00"
-    },
-    {
-        "name":"Home Country Fries With Herbs & Chilli Flakes",
-        "cost":"105.00"
-    },
-    {
-        "name":"French Fries With Cheese & Jalapenos",
-        "cost":"135.00"
-    },
-    {
-        "name":"ChickenBurger",
-        "cost":"99.00"
-    }
+        {
+            "category_name":"Appeteasers",
+            "menuItems":[
+                {
+                    "name":"Chicken Wings",
+                    "price":"250.00"
+                },
+                {
+                    "name":"hicken Livers Topped with PERi-PERi Sauce, Served with A Roll To Soak Up The Sauce",
+                    "price":"250.00"
+                },
+                {
+                    "name":"Spicy Mixed Olives",
+                    "price":"215.00"
+                },
+                {
+                    "name":"Hummus with PERI-PERI Drizzle",
+                    "price":"215.00"
+                },
+                {
+                    "name":"Red Pepper Dip",
+                    "price":"205.00"
+                },
+                {
+                    "name":"Appeteaser Platter",
+                    "price":"615.00"
+                }
+            ]
+        },
+        {
+            "category_name":"Fino sides",
+            "menuItems":[
+                {
+                    "name":"PERi-PERi Wedges",
+                    "price":"190.00"
+                },
+                {
+                    "name":"Corn-On-The-Cob",
+                    "price":"190.00"
+                },
+                {
+                    "name":"Peri-peri chicken",
+                    "price":"385.00"
+                },
+                {
+                    "name":"Half Chicken Marinated with PERi-PERi Sauce and Grilled",
+                    "price":"685.00"
+                },
+                {
+                    "name":"Wing Roulette",
+                    "price":"750.00"
+                },
+                {
+                    "name":"Whole Chicken",
+                    "price":"1350.00"
+                }
+            ]
+        },
+        {
+            "category_name":"Dessert",
+            "menuItems":[
+                {
+                    "name":"Caramel Cheese Cake",
+                    "price":"230.00"
+                },
+                {
+                    "name":"Lighten Up Chocolate Cake",
+                    "price":"230.00"
+                }
+            ]
+        },
+        {
+            "category_name":"Sides",
+            "menuItems":[
+                {
+                    "name":"PERi-PERi Chips",
+                    "price":"130.00"
+                },
+                {
+                    "name":"Spicy Rice",
+                    "price":"130.00"
+                },
+                {
+                    "name":"Coleslaw",
+                    "price":"130.00"
+                },
+                {
+                    "name":"Grilled Veg",
+                    "price":"130.00"
+                },
+                {
+                    "name":"Garlic Bread",
+                    "price":"130.00"
+                }
+            ]
+        },
+        {
+            "category_name":"Salads",
+            "menuItems":[
+                {
+                    "name":"Portuguese Salad",
+                    "price":"245:00"
+                },
+                {
+                    "name":"Mediterranean Salad",
+                    "price":"350.00"
+                },
+                {
+                    "name":"Caesar Salad",
+                    "price":"245.00"
+                }
+            ]
+        },
+        {
+            "category_name":"Burgers",
+            "menuItems":[
+                {
+                    "name":"Chicken Burger",
+                    "price":"120.00"
+                },
+                {
+                    "name":"Chicken Breast Burger",
+                    "price":"150.00"
+                },
+                {
+                    "name":"Veg Burger",
+                    "price":"99.00"
+                }
+            ]
+        },
+        {
+            "category_name":"Biryanis",
+            "menuItems":[
+                {
+                    "name":"Chicken Biryani (4)",
+                    "price":"600.00"
+                },
+                {
+                    "name":"Chicken Biryani (2)",
+                    "price":"250.00"
+                },
+                {
+                    "name":"paneer Biryani",
+                    "price":"180.00"
+                }
+            ]
+        }
 ]

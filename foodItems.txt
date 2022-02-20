@@ -1,0 +1,22 @@
+[
+    {
+        "name":"Crusty Garlic Focaccia With Melted Cheese",
+        "cost":"105.00"
+    },
+    {
+        "name":"French Fries",
+        "cost":"105:00"
+    },
+    {
+        "name":"Home Country Fries With Herbs & Chilli Flakes",
+        "cost":"105.00"
+    },
+    {
+        "name":"French Fries With Cheese & Jalapenos",
+        "cost":"135.00"
+    },
+    {
+        "name":"ChickenBurger",
+        "cost":"99.00"
+    }
+]

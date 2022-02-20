@@ -15,6 +15,7 @@ body{
 }
 
 .table{
+    width: 98%;
     box-shadow: 1px 1px #888888;
 }
 
@@ -35,4 +36,11 @@ body{
 .price-itemCount{
     display: flex;
     flex-direction: row;
+}
+
+.foodItem{
+    text-align: start;
+    box-shadow:1px 1px #888888;
+    height: auto;
+    margin: auto;
 }

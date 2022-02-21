@@ -34,6 +34,18 @@ function addTable(name,price){
     priceItemcount.appendChild(itemCount)
     priceItemcount.setAttribute("id",`table${tableCount}-itemCount`)
     itemCount.innerHTML="0";
+
+    table.addEventListener("dragover",(e)=>{
+        e.preventDefault();
+    })
+    table.addEventListener("drop",(e)=>{
+        e.preventDefault();
+        console.log("drop");
+        let name=e.dataTransfer.getData("foodItem")
+        console.log(name);
+        let price=e.dataTransfer.getData("price")
+        console.log(price);
+    })
     
 }
 
@@ -41,12 +53,19 @@ function addFoodItemToMenu(name,cost){
     let foodItem=document.createElement("div")
     menu.appendChild(foodItem)
     foodItem.setAttribute("class","foodItem "+name)
+    foodItem.setAttribute("draggable","true")
     let foodItemName=document.createElement("h2")
     foodItem.appendChild(foodItemName)
     foodItemName.innerHTML=name
     let foodItemPrice=document.createElement("h3");
     foodItem.appendChild(foodItemPrice)
     foodItemPrice.innerHTML=cost
+
+    foodItem.addEventListener("dragstart",(e)=>{
+        console.log("dragstart");
+        e.dataTransfer.setData("foodItem",name)
+        e.dataTransfer.setData("price",cost)
+    })
 }
 
 function loadMenu(){
@@ -71,7 +90,7 @@ function loadMenu(){
     })
 }
 
-function loadData(){
+function loadTables(){
     fetch("./tables.txt").then(res=>res.text()).then(function(data){
         tableData=JSON.parse(data)
         tableData.forEach(item=>{
@@ -80,6 +99,10 @@ function loadData(){
     }).catch(function(){
         console.log("Error while loading tables data");
     })
+}
+
+function loadData(){
+    loadTables();
     loadMenu();
 }
 

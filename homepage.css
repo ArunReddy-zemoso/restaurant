@@ -1,7 +1,7 @@
 body{
     display: flex;
     flex-direction: row;
-    
+    background-color: darkslateblue;
 }
 
 .tables{
@@ -43,10 +43,11 @@ body{
     box-shadow:1px 1px #888888;
     height: auto;
     margin: auto;
+    cursor: pointer;
 }
 
 .categoryName{
     width: fit-content;
-    border: solid blue;
+    border: solid rgb(248, 248, 248);
     border-style: double;
 }

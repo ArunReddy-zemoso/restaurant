@@ -2,6 +2,13 @@ let tables=document.getElementById("tables");
 let menu=document.getElementById("menu");
 let tableSearch=document.getElementById("search-table");
 let menuSearch=document.getElementById("search-foodItem");
+const closeButton=document.querySelector(".close-button")
+const modal=document.querySelector(".modal")
+const billingTableName=document.getElementById("bill_heading");
+
+closeButton.addEventListener("click",()=>{
+    modal.classList.toggle("show-modal")
+})
 
 
 let tableCount=0;
@@ -48,6 +55,10 @@ function addTable(name,price,itemcount){
         totalPrice.innerHTML=parseFloat(totalPrice.innerHTML)+parseFloat(foodItemPrice)
         itemCount.innerHTML=parseFloat(itemCount.innerHTML)+1
         addFoodItemToTable(foodItemName,foodItemPrice,tableName.innerHTML)
+    })
+    table.addEventListener("click",()=>{
+        modal.classList.toggle("show-modal")
+        billingTableName.innerHTML=`${name} | Order Details`
     })
 }
 
@@ -116,7 +127,6 @@ function loadTables(){
     let tablesData=localStorage.getItem("tables")
     if(tablesData){
         JSON.parse(tablesData).forEach(item=>{
-            console.log(item);
             let itemCount=0;
             item.foodItems.forEach(fooditem=>{
                 itemCount+=fooditem.count
@@ -170,7 +180,6 @@ menuSearch.addEventListener("keydown",function(event){
                 })
             }
         })
-        //console.log(temporaryList);
         if(isCategory){
             let categories=document.querySelectorAll(".categoryName")
             categories.forEach(category=>{

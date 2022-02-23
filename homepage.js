@@ -3,6 +3,7 @@ let menu=document.getElementById("menu");
 let tableSearch=document.getElementById("search-table");
 let menuSearch=document.getElementById("search-foodItem");
 
+
 let tableCount=0;
 let tableData=[]
 let foodItems=[]
@@ -41,12 +42,21 @@ function addTable(name,price){
     table.addEventListener("drop",(e)=>{
         e.preventDefault();
         console.log("drop");
-        let name=e.dataTransfer.getData("foodItem")
-        console.log(name);
-        let price=e.dataTransfer.getData("price")
-        console.log(price);
+        let foodItemName=e.dataTransfer.getData("foodItem")
+        let foodItemPrice=e.dataTransfer.getData("price")
+        console.log(foodItemName,foodItemPrice,tableName.innerHTML);
+        addFoodItemToTable(foodItemName,foodItemPrice,tableName.innerHTML)
     })
-    
+}
+
+function addFoodItemToTable(foodItemName,foodItemPrice,tableName){
+    let tablesData=JSON.parse(localStorage.getItem("tables"))
+    tablesData.forEach(item=>{
+        if(tableName===item.tableName){
+            item.foodItems.push({foodItemName,foodItemPrice})
+        }
+    })
+    localStorage.setItem("tables",JSON.stringify(tablesData));
 }
 
 function addFoodItemToMenu(name,cost){
@@ -93,6 +103,7 @@ function loadMenu(){
 function loadTables(){
     fetch("./tables.txt").then(res=>res.text()).then(function(data){
         tableData=JSON.parse(data)
+        localStorage.setItem("tables",JSON.stringify(tableData))
         tableData.forEach(item=>{
             addTable(item.tableName,item.totalPrice)
         })
@@ -123,8 +134,6 @@ tableSearch.addEventListener("keyup",function(event){
 
 menuSearch.addEventListener("keydown",function(event){
     if(event.key==="Enter" && event.target.value!==""){
-        console.log(event.key);
-        console.log(event.target.value);
         let value=event.target.value;
         let isCategory=false
         let temporaryList=[]

@@ -6,7 +6,8 @@ body{
 
 .tables{
     width: 30%;
-    /* text-align: center; */
+    overflow-x: hidden;
+    overflow-y: auto;
     border-right: solid black;
 }
 

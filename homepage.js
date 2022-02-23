@@ -9,7 +9,7 @@ let tableData=[]
 let foodItems=[]
 
 
-function addTable(name,price){
+function addTable(name,price,itemcount){
     tableCount++;
     let table=document.createElement('div');
     tables.appendChild(table);
@@ -33,8 +33,8 @@ function addTable(name,price){
     totalItems.innerHTML="Total items:"
     let itemCount=document.createElement("h3")
     priceItemcount.appendChild(itemCount)
-    priceItemcount.setAttribute("id",`table${tableCount}-itemCount`)
-    itemCount.innerHTML="0";
+    itemCount.setAttribute("id",`table${tableCount}-itemCount`)
+    itemCount.innerHTML=itemcount;
 
     table.addEventListener("dragover",(e)=>{
         e.preventDefault();
@@ -45,6 +45,8 @@ function addTable(name,price){
         let foodItemName=e.dataTransfer.getData("foodItem")
         let foodItemPrice=e.dataTransfer.getData("price")
         console.log(foodItemName,foodItemPrice,tableName.innerHTML);
+        totalPrice.innerHTML=parseFloat(totalPrice.innerHTML)+parseFloat(foodItemPrice)
+        itemCount.innerHTML=parseFloat(itemCount.innerHTML)+1
         addFoodItemToTable(foodItemName,foodItemPrice,tableName.innerHTML)
     })
 }
@@ -53,8 +55,20 @@ function addFoodItemToTable(foodItemName,foodItemPrice,tableName){
     let tablesData=JSON.parse(localStorage.getItem("tables"))
     tablesData.forEach(item=>{
         if(tableName===item.tableName){
-            item.foodItems.push({foodItemName,foodItemPrice})
+            let isFoodItemPresent=false;
+            item.foodItems.forEach(food=>{
+                if(foodItemName===food.fooditem){
+                    isFoodItemPresent=true
+                    food.count=parseInt(food.count)+1
+                }
+            })
+            if(!isFoodItemPresent){
+                item.foodItems.push({"fooditem":foodItemName,"price":foodItemPrice,"count":1})
+            }
+            item.totalPrice=parseFloat(item.totalPrice)+parseFloat(foodItemPrice)
+            
         }
+
     })
     localStorage.setItem("tables",JSON.stringify(tablesData));
 }
@@ -81,7 +95,6 @@ function addFoodItemToMenu(name,cost){
 function loadMenu(){
     fetch("./foodItems.txt").then(res=>res.text()).then(function(data){
         foodItems=JSON.parse(data)
-        console.log(foodItems);
         foodItems.forEach(item=>{
             let categoryNameDiv=document.createElement("div");
             menu.appendChild(categoryNameDiv);
@@ -90,7 +103,6 @@ function loadMenu(){
             categoryNameDiv.appendChild(categoryName);
             categoryName.setAttribute("class","categoryName")
             categoryName.innerHTML=item.category_name;
-            console.log(categoryName);
             item.menuItems.forEach(fooditem=>{
                 addFoodItemToMenu(fooditem.name,fooditem.price)
             })
@@ -101,15 +113,28 @@ function loadMenu(){
 }
 
 function loadTables(){
-    fetch("./tables.txt").then(res=>res.text()).then(function(data){
-        tableData=JSON.parse(data)
-        localStorage.setItem("tables",JSON.stringify(tableData))
-        tableData.forEach(item=>{
-            addTable(item.tableName,item.totalPrice)
+    let tablesData=localStorage.getItem("tables")
+    if(tablesData){
+        JSON.parse(tablesData).forEach(item=>{
+            console.log(item);
+            let itemCount=0;
+            item.foodItems.forEach(fooditem=>{
+                itemCount+=fooditem.count
+            })
+            addTable(item.tableName,item.totalPrice,itemCount)
         })
-    }).catch(function(){
-        console.log("Error while loading tables data");
-    })
+    }
+    else{
+        fetch("./tables.txt").then(res=>res.text()).then(function(data){
+            tableData=JSON.parse(data)
+            localStorage.setItem("tables",JSON.stringify(tableData))
+            tableData.forEach(item=>{
+                addTable(item.tableName,item.totalPrice,0)
+            })
+        }).catch(function(){
+            console.log("Error while loading tables data");
+        })
+    }
 }
 
 function loadData(){

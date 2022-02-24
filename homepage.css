@@ -3,7 +3,7 @@
 }
 
 body{
-    background-color: darkslateblue;
+    background-image: url("https://www.teahub.io/photos/full/41-417767_restaurant-menu-theme-backgrounds-menu-restaurant.jpg");
 }
 
 .tables{
@@ -11,6 +11,7 @@ body{
     width: 25%;
     text-align: center;
     text-align: center;
+    border-right: solid black;
 }
 
 .table:hover{
@@ -23,17 +24,19 @@ body{
 
 .table{
     width: 98%;
-    box-shadow: 1px 1px #888888;
+    box-shadow: 2px 2px black;
     text-align: start;
 }
 
 .search-table{
     width:90%;
-    box-shadow: 1px 1px #888888;
+    box-shadow: 2px 2px black;
+    height:50px;
 }
 .search-foodItem{
     width:90%;
-    box-shadow: 1px 1px #888888;
+    box-shadow: 2px 2px black;
+    height:50px;
 }
 
 .menu{
@@ -41,6 +44,7 @@ body{
     width: 75%;
     padding: 0%;
     text-align: center;
+    padding-left: 2px;
 }
 
 .price-itemCount{
@@ -50,7 +54,7 @@ body{
 
 .foodItem{
     text-align: start;
-    box-shadow:1px 1px #888888;
+    box-shadow: 2px 2px black;
     height: auto;
     margin: auto;
     cursor: pointer;
@@ -148,6 +152,8 @@ body{
     transform: translate(-50%, -50%);
     background-color: #ffffff;
     padding: 0px;
+    width: fit-content;
+    max-width: 70%;
 }
 
 header {
@@ -189,6 +195,10 @@ footer {
 td {
     padding: 10px;
     text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    opacity: 1
 }
 
 .fa-trash {

@@ -5,8 +5,10 @@ let menuSearch=document.getElementById("search-foodItem");
 const closeButton=document.querySelector(".close-button")
 const modal=document.querySelector(".modal")
 const billingTableName=document.getElementById("bill_heading");
+const billingTable=document.getElementById("table_bill")
 
 closeButton.addEventListener("click",()=>{
+
     modal.classList.toggle("show-modal")
 })
 
@@ -14,7 +16,6 @@ closeButton.addEventListener("click",()=>{
 let tableCount=0;
 let tableData=[]
 let foodItems=[]
-
 
 function addTable(name,price,itemcount){
     tableCount++;
@@ -48,23 +49,105 @@ function addTable(name,price,itemcount){
     })
     table.addEventListener("drop",(e)=>{
         e.preventDefault();
-        console.log("drop");
         let foodItemName=e.dataTransfer.getData("foodItem")
         let foodItemPrice=e.dataTransfer.getData("price")
-        console.log(foodItemName,foodItemPrice,tableName.innerHTML);
         totalPrice.innerHTML=parseFloat(totalPrice.innerHTML)+parseFloat(foodItemPrice)
         itemCount.innerHTML=parseFloat(itemCount.innerHTML)+1
         addFoodItemToTable(foodItemName,foodItemPrice,tableName.innerHTML)
     })
     table.addEventListener("click",()=>{
         modal.classList.toggle("show-modal")
-        billingTableName.innerHTML=`${name} | Order Details`
+        billingTableName.innerHTML=`${name} | Order Details`;
+        let totalprice;
+        for(let tableDataItem of tableData){
+            if(name===tableDataItem.tableName){
+                addTableItemsToBilling(tableDataItem)
+                break;
+            }
+        }
+        function addTableItemsToBilling(tableDataItem){
+            resetBillingTable()
+            let j=1;
+            totalprice=0;
+            tableDataItem.foodItems.forEach(item=>{
+                let tr=document.createElement('tr')
+                billingTable.appendChild(tr)
+                let tdSerial=document.createElement("td")
+                tr.appendChild(tdSerial)
+                tdSerial.innerHTML=j++;
+                let tdItem=document.createElement("td")
+                tr.appendChild(tdItem)
+                tdItem.innerHTML=item.fooditem;
+                let tdPrice=document.createElement("td")
+                tr.appendChild(tdPrice)
+                tdPrice.innerHTML=item.price
+                let tdQuantity=document.createElement("td")
+                tr.appendChild(tdQuantity)
+                let input=document.createElement("input")
+                input.type="number"
+                input.setAttribute("min","1")
+                input.value=parseInt(item.count)
+                input.addEventListener("change",()=>{
+                    console.log(item);
+                    let currentCount=parseFloat(item.count)
+                    let updatedCount=parseFloat(input.value)
+                    if(currentCount > updatedCount){
+                        item.count--;
+                        totalprice-=parseFloat(item.price)
+                        tableDataItem.totalPrice-=parseFloat(item.price)
+                        itemCount.innerHTML=parseInt(itemCount.innerHTML)-1
+                    }
+                    else if(currentCount < updatedCount){
+                        item.count++;
+                        totalprice+=parseFloat(item.price)
+                        tableDataItem.totalPrice+=parseFloat(item.price)
+                        itemCount.innerHTML=parseInt(itemCount.innerHTML)+1
+                    }
+                    total.innerHTML=`Total: ${totalprice}`
+                    totalPrice.innerHTML=tableDataItem.totalPrice
+                    localStorage.setItem("tables",JSON.stringify(tableData))
+                })
+                tdQuantity.appendChild(input)
+                totalprice+=parseFloat(item.price)*input.value
+                let tdTrash=document.createElement("ion-icon")
+                tdTrash.setAttribute("name","trash-outline")
+                tdTrash.style.fontSize="30px"
+                tdTrash.style.textAlign="center"
+                tr.appendChild(tdTrash)
+                tdTrash.style.cursor="pointer"
+                tdTrash.addEventListener("click",()=>{
+                    console.log(tableDataItem.foodItems);
+                    console.log(item);
+                    let index;
+                    for(let x=0;x<tableDataItem.foodItems.length;x++){
+                        if(item===tableDataItem.foodItems[x]){
+                            console.log(x);
+                            totalprice-=parseInt(tableDataItem.foodItems[x].price)*tableDataItem.foodItems[x].count
+                            tableDataItem.totalPrice-=tableDataItem.foodItems[x].price*tableDataItem.foodItems[x].count
+                            totalPrice.innerHTML=tableDataItem.totalPrice
+                            itemCount.innerHTML=parseInt(itemCount.innerHTML)-tableDataItem.foodItems[x].count
+                            tableDataItem.foodItems.splice(x,1)
+                            localStorage.setItem("tables",JSON.stringify(tableData))
+                            addTableItemsToBilling(tableDataItem)
+                        }
+                    }
+                })
+            })
+            let tr=document.createElement("tr")
+            billingTable.appendChild(tr)
+            tr.appendChild(document.createElement("td"))
+            tr.appendChild(document.createElement("td"))
+            let total=document.createElement("td")
+            tr.appendChild(total)
+            total.innerHTML=`Total: ${totalprice}`
+        }
+        
     })
 }
 
 function addFoodItemToTable(foodItemName,foodItemPrice,tableName){
-    let tablesData=JSON.parse(localStorage.getItem("tables"))
-    tablesData.forEach(item=>{
+    tableData=JSON.parse(localStorage.getItem("tables"))
+    tableData.forEach(item=>{
         if(tableName===item.tableName){
             let isFoodItemPresent=false;
             item.foodItems.forEach(food=>{
@@ -81,7 +164,7 @@ function addFoodItemToTable(foodItemName,foodItemPrice,tableName){
         }
 
     })
-    localStorage.setItem("tables",JSON.stringify(tablesData));
+    localStorage.setItem("tables",JSON.stringify(tableData));
 }
 
 function addFoodItemToMenu(name,cost){
@@ -97,7 +180,6 @@ function addFoodItemToMenu(name,cost){
     foodItemPrice.innerHTML=cost
 
     foodItem.addEventListener("dragstart",(e)=>{
-        console.log("dragstart");
         e.dataTransfer.setData("foodItem",name)
         e.dataTransfer.setData("price",cost)
     })
@@ -124,9 +206,10 @@ function loadMenu(){
 }
 
 function loadTables(){
-    let tablesData=localStorage.getItem("tables")
-    if(tablesData){
-        JSON.parse(tablesData).forEach(item=>{
+    let tableJsonData=localStorage.getItem("tables")
+    if(tableJsonData){
+        tableData=JSON.parse(tableJsonData);
+        tableData.forEach(item=>{
             let itemCount=0;
             item.foodItems.forEach(fooditem=>{
                 itemCount+=fooditem.count
@@ -224,5 +307,29 @@ menuSearch.addEventListener("keydown",function(event){
         })
     }
 })
+
+function resetBillingTable(){
+    for(let i=billingTable.rows.length-1;i>0;i--){
+        billingTable.deleteRow(i);
+    }
+}
+
+function resetTable(event){
+    resetBillingTable()
+    let tablename=billingTableName.innerHTML.split("|")[0].trim()
+    let index=tablename.split("-")[1]
+    tableData.forEach(tableitem=>{
+        if(tablename===tableitem.tableName){
+            tableitem.foodItems=[]
+            tableitem.totalPrice=0
+        }
+    })
+    let table=document.querySelectorAll(".table")[index-1]
+    table.children[1].children[1].innerHTML=0
+    table.children[1].children[3].innerHTML=0
+
+    modal.classList.toggle("show-modal");
+    localStorage.setItem("tables",JSON.stringify(tableData))
+}
 
 loadData();

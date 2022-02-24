@@ -12,6 +12,8 @@ body{
     text-align: center;
     text-align: center;
     border-right: solid black;
+    overflow-y: scroll;
+    height: 900px;
 }
 
 .table:hover{
@@ -45,6 +47,8 @@ body{
     padding: 0%;
     text-align: center;
     padding-left: 2px;
+    overflow-y: scroll;
+    height: 900px;
 }
 
 .price-itemCount{

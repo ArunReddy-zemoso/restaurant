@@ -12,6 +12,7 @@ closeButton.addEventListener("click",()=>{
     modal.classList.toggle("show-modal")
 })
 
+console.log();
 
 let tableCount=0;
 let tableData=[]
@@ -88,7 +89,6 @@ function addTable(name,price,itemcount){
                 input.setAttribute("min","1")
                 input.value=parseInt(item.count)
                 input.addEventListener("change",()=>{
-                    console.log(item);
                     let currentCount=parseFloat(item.count)
                     let updatedCount=parseFloat(input.value)
                     if(currentCount > updatedCount){
@@ -116,12 +116,8 @@ function addTable(name,price,itemcount){
                 tr.appendChild(tdTrash)
                 tdTrash.style.cursor="pointer"
                 tdTrash.addEventListener("click",()=>{
-                    console.log(tableDataItem.foodItems);
-                    console.log(item);
-                    let index;
                     for(let x=0;x<tableDataItem.foodItems.length;x++){
                         if(item===tableDataItem.foodItems[x]){
-                            console.log(x);
                             totalprice-=parseInt(tableDataItem.foodItems[x].price)*tableDataItem.foodItems[x].count
                             tableDataItem.totalPrice-=tableDataItem.foodItems[x].price*tableDataItem.foodItems[x].count
                             totalPrice.innerHTML=tableDataItem.totalPrice
@@ -270,7 +266,6 @@ menuSearch.addEventListener("keydown",function(event){
             })
             let foodList=document.querySelectorAll(".foodItem")
             foodList.forEach(food=>{
-                console.log(food.children[0].innerHTML);
                 if(temporaryList.indexOf(food.children[0].innerHTML)> -1){
                     food.style.display="";
                 }
@@ -286,7 +281,6 @@ menuSearch.addEventListener("keydown",function(event){
             })
             let foodList=document.querySelectorAll(".foodItem")
             foodList.forEach(food=>{
-                console.log(food.children[0].innerHTML);
                 if(food.children[0].innerHTML.includes(value)){
                     food.style.display=""
                 }

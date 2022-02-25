@@ -4,6 +4,7 @@
 
 body{
     background-image: url("https://www.teahub.io/photos/full/41-417767_restaurant-menu-theme-backgrounds-menu-restaurant.jpg");
+    overflow: hidden;
 }
 
 .tables{
@@ -13,7 +14,7 @@ body{
     text-align: center;
     border-right: solid black;
     overflow-y: scroll;
-    height: 900px;
+    height: 100vh;
 }
 
 .table:hover{
@@ -48,7 +49,7 @@ body{
     text-align: center;
     padding-left: 2px;
     overflow-y: scroll;
-    height: 900px;
+    height: 100vh;
 }
 
 .price-itemCount{

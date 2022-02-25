@@ -232,11 +232,11 @@ function loadData(){
 }
 
 tableSearch.addEventListener("keyup",function(event){
-    let value=event.target.value;
+    let value=event.target.value.toLowerCase();
+    let tableslist=document.querySelectorAll(".table");
     if(value!==""){
-        let tableslist=document.querySelectorAll(".table");
         tableslist.forEach(table =>{
-            if(!table.children[0].innerHTML.includes(value)){
+            if(!table.children[0].innerHTML.toLowerCase().includes(value)){
                 table.style.display="none";
             }
             else{
@@ -244,15 +244,20 @@ tableSearch.addEventListener("keyup",function(event){
             }
         })
     }
+    else if(value===""){
+        tableslist.forEach(table=>{
+            table.style.display="";
+        })
+    }
 })
 
 menuSearch.addEventListener("keydown",function(event){
     if(event.key==="Enter" && event.target.value!==""){
-        let value=event.target.value;
+        let value=event.target.value.toLowerCase();
         let isCategory=false
         let temporaryList=[]
         foodItems.forEach(item=>{
-            if(value===item.category_name){
+            if(value===item.category_name.toLowerCase()){
                 isCategory=true;
                 item.menuItems.forEach(fooditem=>{
                     temporaryList.push(fooditem.name)
@@ -281,7 +286,7 @@ menuSearch.addEventListener("keydown",function(event){
             })
             let foodList=document.querySelectorAll(".foodItem")
             foodList.forEach(food=>{
-                if(food.children[0].innerHTML.includes(value)){
+                if(food.children[0].innerHTML.toLowerCase().includes(value)){
                     food.style.display=""
                 }
                 else{
